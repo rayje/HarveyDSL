@@ -1,0 +1,22 @@
+{
+  "name": "HarveyDSL",
+  "version": "0.0.0",
+  "description": "A DSL for Harvey actions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rayje/HarveyDSL.git"
+  },
+  "keywords": [
+    "Harvey",
+    "DSL"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rayje/HarveyDSL/issues"
+  }
+}
