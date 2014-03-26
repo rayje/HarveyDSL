@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "description": "A DSL for Harvey actions",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:rayje/HarveyDSL.git"
@@ -18,5 +15,23 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rayje/HarveyDSL/issues"
+  },
+  "dependencies": {
+     "underscore": "x.x.x",
+     "mocha": "1.x.x",
+     "nock": "0.x.x",
+     "blanket": "1.0.x",
+     "travis-cov": "0.2.x"
+  }
+  "scripts": {
+     "test": "make test && make test-cov",
+     "blanket": {
+         "pattern": "//^((?!\/node_modules\/)(?!\/test\/).)*$/ig",
+         "onlyCwd": true,
+         "data-cover-flags": {
+             "branchTracking": true
+         }
+     },
+     "travis-cov": { "threshold": 95 }
   }
 }
