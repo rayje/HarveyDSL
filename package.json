@@ -17,21 +17,24 @@
     "url": "https://github.com/rayje/HarveyDSL/issues"
   },
   "dependencies": {
-     "underscore": "x.x.x",
-     "mocha": "1.x.x",
-     "nock": "0.x.x",
-     "blanket": "1.0.x",
-     "travis-cov": "0.2.x"
+    "underscore": "x.x.x",
+    "mocha": "1.x.x",
+    "nock": "0.x.x",
+    "blanket": "1.0.x",
+    "travis-cov": "0.2.x",
+    "pegjs": "~0.8.0"
   },
   "scripts": {
-     "test": "make test && make test-cov",
-     "blanket": {
-         "pattern": "//^((?!\/node_modules\/)(?!\/test\/).)*$/ig",
-         "onlyCwd": true,
-         "data-cover-flags": {
-             "branchTracking": true
-         }
-     },
-     "travis-cov": { "threshold": 95 }
+    "test": "make test && make test-cov",
+    "blanket": {
+      "pattern": "//^((?!/node_modules/)(?!/test/).)*$/ig",
+      "onlyCwd": true,
+      "data-cover-flags": {
+        "branchTracking": true
+      }
+    },
+    "travis-cov": {
+      "threshold": 95
+    }
   }
 }
