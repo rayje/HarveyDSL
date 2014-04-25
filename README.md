@@ -11,7 +11,7 @@ test cases.
 
 ### Grammar definitons:
 
-	expr ::= assign 
+	action ::= assign 
 		| replace 
 		| extract 
 		| random
