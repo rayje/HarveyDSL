@@ -6,7 +6,7 @@ describe('interpreter', function() {
 
     describe('constructor()', function() {
 
-        it('should return an object with a nextToken method', function(done) {
+        it('should return an object with an execute method', function(done) {
 
             //Act
             var interpreter = new Interpreter();

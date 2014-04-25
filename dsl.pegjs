@@ -8,7 +8,7 @@ start = expr
 
 expr = assign / replace / extract
 
-assign = variable:CharsAndDigits " := " val: (extract / CharsAndDigits) { 
+assign = variable:charsAndDigits " := " val: (extract / charsAndDigits) { 
 	return {
 		type:ASSIGN, 
 		variable:variable, 
@@ -16,9 +16,9 @@ assign = variable:CharsAndDigits " := " val: (extract / CharsAndDigits) {
 	}; 
 }
 
-CharsAndDigits = $[a-z0-9]i+
+charsAndDigits = $[a-z0-9]i+
 
-extract = "$" variable:CharsAndDigits "." val:CharsAndDigits {
+extract = "$" variable:charsAndDigits "." val:charsAndDigits {
 	return {
 		type: EXTRACT,
 		variable: variable,
@@ -30,7 +30,7 @@ extract = "$" variable:CharsAndDigits "." val:CharsAndDigits {
  * Search and replace
  *     s/regex/replacement/flags value|variable
  *
- *     RegularExpressionBody:
+ *     regexBody:
  *         The regular expression to execute for the replacement.
  * 
  *     replacement:
@@ -43,7 +43,7 @@ extract = "$" variable:CharsAndDigits "." val:CharsAndDigits {
  *         The value or variable to replace
  */
 replace 
-	= 's/' regex:$RegularExpressionBody  '/' repl:replacement '/' f:flags " " val:value { 
+	= 's/' regex:$regexBody  '/' repl:replacement '/' f:flags " " val:value { 
 		return {
 			type:REPLACE, 
 			regex:regex, 
@@ -59,45 +59,26 @@ flags = $[gimy]*
 
 value = $[^/}{]i*
 
-SourceCharacter = .
+sourceChar = .
 
-// Separator, Space
-Zs = [\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]
+whitespace = "\t" / " "
 
-WhiteSpace "whitespace"
-  = "\t"
-  / "\v"
-  / "\f"
-  / " "
-  / "\u00A0"
-  / "\uFEFF"
-  / Zs
+lineTerminator = [\n\r\u2028\u2029]
 
-LineTerminator
-  = [\n\r\u2028\u2029]
+regexBody = regexFirstChar regexChar* 
 
-RegularExpressionBody
-  = rf:RegularExpressionFirstChar re:RegularExpressionChar* 
+regexFirstChar = ![*\\/[] regexNonTerminator
+  / regexBackslashSeq
+  / regexClass
 
-RegularExpressionFirstChar
-  = ![*\\/[] RegularExpressionNonTerminator
-  / RegularExpressionBackslashSequence
-  / RegularExpressionClass
+regexChar = ![\\/[] regexNonTerminator
+  / regexBackslashSeq
+  / regexClass
 
-RegularExpressionChar
-  = ![\\/[] RegularExpressionNonTerminator
-  / RegularExpressionBackslashSequence
-  / RegularExpressionClass
+regexBackslashSeq = "\\" regexNonTerminator
 
-RegularExpressionBackslashSequence
-  = "\\" RegularExpressionNonTerminator
+regexNonTerminator = !lineTerminator sourceChar
 
-RegularExpressionNonTerminator
-  = !LineTerminator SourceCharacter
+regexClass = "[" regexClassChar* "]"
 
-RegularExpressionClass
-  = "[" RegularExpressionClassChar* "]"
-
-RegularExpressionClassChar
-  = ![\]\\] RegularExpressionNonTerminator
-  / RegularExpressionBackslashSequence
+regexClassChar = ![\]\\] regexNonTerminator / regexBackslashSeq
