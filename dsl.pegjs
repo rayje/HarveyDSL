@@ -1,14 +1,16 @@
 {
-	var REPLACE = 0,
-		ASSIGN  = 1,
-		EXTRACT = 2
+	var REPLACE        = 0,
+		ASSIGN         = 1,
+		EXTRACT        = 2,
+		RANDOM_STRING  = 3,
+		RANDOM_NUMBER  = 4
 }
 
 start = expr
 
-expr = assign / replace / extract
+expr = assign / replace / extract / random
 
-assign = variable:charsAndDigits " := " val: (extract / charsAndDigits) { 
+assign = variable:charsAndDigits whitespace ":=" whitespace val: (random / extract / charsAndDigits) { 
 	return {
 		type:ASSIGN, 
 		variable:variable, 
@@ -17,6 +19,10 @@ assign = variable:charsAndDigits " := " val: (extract / charsAndDigits) {
 }
 
 charsAndDigits = $[a-z0-9]i+
+
+chars = $[a-z]i+
+
+digits = $[0-9]+
 
 extract = "$" variable:charsAndDigits "." val:charsAndDigits {
 	return {
@@ -82,3 +88,21 @@ regexNonTerminator = !lineTerminator sourceChar
 regexClass = "[" regexClassChar* "]"
 
 regexClassChar = ![\]\\] regexNonTerminator / regexBackslashSeq
+
+random = randomString / randomNumber
+
+randomString = "random string" whitespace length:digits ":" chars:chars {
+	return {
+		type: RANDOM_STRING,
+		length: length,
+		chars: chars
+	}
+}
+
+randomNumber = "random number" whitespace min:digits ":" max:digits {
+	return {
+		type: RANDOM_NUMBER,
+		min: min,
+		max: max
+	}
+}
