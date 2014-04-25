@@ -61,7 +61,7 @@ test cases.
 
 	regexClass ::= "[" regexClassChar* "]"
 
-	regexClassChar ::= ![\]\\] regexNonTerminator 
+	regexClassChar ::= [\]\\] regexNonTerminator 
 		| regexBackslashSeq
 
 
