@@ -11,42 +11,63 @@ test cases.
 
 ### Grammar definitons:
 
-    extract
-        body.access_token
+	expr ::= assign 
+		| replace 
+		| extract 
+		| random
 
-    extract ::= ("body"|"headers") "." field
-    field   ::= ?
+	assign ::= charsAndDigits ws ":=" ws (random | extract | charAndDigits)
 
-    replace: (substitution)
-        s/regex/replacement/{flags} value
-        s/^users\/(.*)$/1/i users/12345
-        s/{regex}/{replacement}/{flags} {value}
+	extract ::= "$" charsAndDigits "." charsAndDigits
 
-    replace ::= "s/" regex "/" replacement "/" (flags)* value
-    regex ::= ?
-    replacement ::= ?
-    flags ::= ?
-    value ::= ?
+	replace ::= 's/' regexBody '/' replacement '/' flags ws value
 
-    random (needs more thought)
-        random (string|number)
+	random ::= "random" ws (randomString | randomNumber)
 
-        random number 0 to 100
-        random string from [a-zA-Z] length 10
+	randomString ::= "string" digits ":" chars
+	
+	randomNumber ::= number" digits ":" digits
 
-    random ::= (string|number)
-    string ::= "string from" "[" chars "]" "length" num
-    number ::= "number" num "to" num
-    num    ::= N
-    chars  ::= ascii chars
+	chars ::= [a-zA-Z]+
 
-    set: (assignment)
-        myAccessToken := value
-        
-        value ::= string
-            | int 
-            | extract
-            | date
+	digits ::= [0-9]+
+
+	charAndDigits ::= [a-zA-Z0-9]+
+
+	ws ::= "\t" 
+		| " "
+
+	replacement ::= [^/]* 
+
+	flags ::= [gimy]*  
+
+	value ::= [^/}{]*
+
+	sourceChar ::= .
+	
+	regexBody ::= regexFirstChar regexChar*
+
+	regexFirstChar ::= [*\\/[] regexNonTerminator
+	  | regexBackslashSeq
+	  | regexClass
+
+	regexChar ::= [\\/[] regexNonTerminator
+	  | regexBackslashSeq
+	  | regexClass
+
+	regexBackslashSeq ::= "\\" regexNonTerminator
+
+	regexNonTerminator ::= lineTerminator sourceChar
+
+	regexClass ::= "[" regexClassChar* "]"
+
+	regexClassChar ::= ![\]\\] regexNonTerminator 
+		| regexBackslashSeq
+
+
+
+### In progess:
+
     base64 {value} (needs more thought)
         value ::= ?
 
