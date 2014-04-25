@@ -18,7 +18,7 @@ test cases.
 
 	assign ::= chars charsAndDigits ws ":=" ws (random | extract | charAndDigits)
 
-	extract ::= "$" chars charsAndDigits "." charsAndDigits
+	extract ::= "$" chars charsAndDigits "." chars charsAndDigits
 
 	replace ::= 's/' regexBody '/' replacement '/' flags ws value
 
@@ -26,7 +26,7 @@ test cases.
 
 	randomString ::= "string" digits ":" chars
 	
-	randomNumber ::= number" digits ":" digits
+	randomNumber ::= "number" digits ":" digits
 
 	chars ::= [a-zA-Z]+
 
