@@ -16,9 +16,9 @@ test cases.
 		| extract 
 		| random
 
-	assign ::= charsAndDigits ws ":=" ws (random | extract | charAndDigits)
+	assign ::= chars charsAndDigits ws ":=" ws (random | extract | charAndDigits)
 
-	extract ::= "$" charsAndDigits "." charsAndDigits
+	extract ::= "$" chars charsAndDigits "." charsAndDigits
 
 	replace ::= 's/' regexBody '/' replacement '/' flags ws value
 
