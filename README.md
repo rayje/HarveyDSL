@@ -60,7 +60,7 @@ object definition:
 ```JSON
 {
 	"$set": {
-		"<key>": "<value>""	
+		"<key>": "<value>"
 	}
 }
 ```
@@ -75,7 +75,9 @@ or another Harvey action.
 The proposed new assignment grammer contains a smaller
 assignment string:
 
-	"<key> := <value>"
+```JSON
+"<key> := <value>"
+```
 
 The definitions for `key` and `value` have not changed,
 only their representation to the user.
@@ -85,14 +87,16 @@ only their representation to the user.
 The current replacement definition contains the following JSON
 representation:
 
-	{
-		"$replace": {
-			"value": <value>,
-			"regex": <regex>,
-			"flags": <flags>,
-			"replacement": <replacement>
-		}
+```JSON
+{
+	"$replace": {
+		"value": "<value>",
+		"regex": "<regex>",
+		"flags": "<flags>",
+		"replacement": "<replacement>"
 	}
+}
+```
 
 The `$replace` definition by itself is not very useful, it
 is usually part of another Harvey action, such as an assigment.
@@ -100,38 +104,48 @@ is usually part of another Harvey action, such as an assigment.
 The proposed new syntax for replacement is similar to a Perl 
 style regular expression:
 
-	"s/<regex>/<replacement>/<flags> <value>"
+```JSON
+"s/<regex>/<replacement>/<flags> <value>"
+```
 
 Example:
 
-	"s/^users\\\/(.*)$/$1/i 'users/12345'"
+```JSON
+"s/^users\\\/(.*)$/$1/i 'users/12345'"
+```
 
 The example above would replace the current syntax:
 
-	{
-		"$replace": {
-            "value": "users/12345",
-            "regex": "^users/(.*)$",
-            "flags": "i",
-            "replacement": "$1"
-		}
+```JSON
+{
+	"$replace": {
+        "value": "users/12345",
+        "regex": "^users/(.*)$",
+        "flags": "i",
+        "replacement": "$1"
 	}
+}
+```
 
 ### Extract
 
 The current syntax for an extract action contains the following
 JSON:
 
-	{
-		"$extract": "<object>.<property>"
-	}
+```JSON
+{
+	"$extract": "<object>.<property>"
+}
+```
 
 The `$extract` syntax is the simplest of the Harvey actions,
 but is still defined in terms of JSON.
 
 The proposed syntax for extract is just as simple:
 
-	"$<object>.<property>"
+```JSON
+"$<object>.<property>"
+```
 
 The `$extract` definition by itself is also not very useful.
 It is also usually used as part of another Harvey action.
@@ -139,18 +153,22 @@ It is also usually used as part of another Harvey action.
 When used with assignment, the following is an example if chaining
 two actions, assignment and extract.
 
-	"token := $body.token"
+```JSON
+"token := $body.token"
+```
 
 This compared to the current syntax is much smaller and easier to
 interpret.
 
-	{
-		"$set": {
-			"token": {
-				"$extract": "body.token"
-			}
+```JSON
+{
+	"$set": {
+		"token": {
+			"$extract": "body.token"
 		}
 	}
+}
+```
 
 ### Random
 
@@ -158,36 +176,39 @@ The current syntax for the random action takes two forms depending
 on the expected result. The first is a random string and the second
 is a random number:
 
-#### Random String
-
-	{
-        "$random": {
-            "type": "string",
-            "length": <length>,
-            "characters": <chars>
-        }
+**Random String**
+```JSON
+{
+    "$random": {
+        "type": "string",
+        "length": <length>,
+        "characters": <chars>
     }
+}
+```
 
-#### Random Number
-
-	{
-        "$random": {
-            "type": "number",
-            "min": <min>,
-            "max": <max>
-        }
+**Random Number**
+```JSON
+{
+    "$random": {
+        "type": "number",
+        "min": <min>,
+        "max": <max>
     }
+}
+```
 
 The proposed replacement for these definitions are:
 
-#### Random String
+**Random String**
+```JSON
+"random string <length>:<chars>"
+```
 
-	"random string <length>:<chars>"
-
-#### Random Number
-
-	"random number <min>:<max>"
-
+**Random Number**
+```JSON
+"random number <min>:<max>"
+```
 
 
 ### Grammar definitons:
