@@ -20,7 +20,9 @@ languages, such as JavaScript, to still be able to define
 test cases in the Harvey framework. There is also the 
 simplicity for the programmer. Since Harvey is written in 
 JavaScript, converting the JSON to javascript is as simple as
-calling ```JSON.parse```.
+```javascript
+	var object = JSON.parse("{}");
+```
 
 The drawbacks, however, are when combined with features such
 as action chaining, the definitions begin to appear a bit 
@@ -29,7 +31,7 @@ With numerous test cases, the time it takes for a user to
 generate test cases increases, due to the extra time taken
 to interpret the embedded JSON objects used for action 
 definitions. This goes against one of the reasons to implement
-a DSL, "To increase development productivity".
+a DSL, "*To increase development productivity*".
 
 This project attempts to simplify this by creating a DSL to 
 define actions that do not require JSON. The DSL generated 
@@ -61,8 +63,8 @@ object definition:
 		}
 	}
 
-where ```key``` is the name of the variable whose value will 
-be set by the assignment, and ```value``` is the result of 
+where `key` is the name of the variable whose value will 
+be set by the assignment, and `value` is the result of 
 the interpretation of the value object. 
 
 In Harvey, the value object can be either a string, a number,
@@ -73,7 +75,7 @@ assignment string:
 
 	"<key> := <value>"
 
-The definitions for ```key``` and ```value``` have not changed,
+The definitions for `key` and `value` have not changed,
 only their representation to the user.
 
 ### Replacement
@@ -90,7 +92,7 @@ representation:
 		}
 	}
 
-The ```$replace``` definition by itself is not very useful, it
+The `$replace` definition by itself is not very useful, it
 is usually part of another Harvey action, such as an assigment.
 
 The proposed new syntax for replacement is similar to a Perl 
@@ -122,14 +124,14 @@ JSON:
 		"$extract": "<object>.<property>"
 	}
 
-The ```$extract``` syntax is the simplest of the Harvey actions,
+The `$extract` syntax is the simplest of the Harvey actions,
 but is still defined in terms of JSON.
 
 The proposed syntax for extract is just as simple:
 
 	"$<object>.<property>"
 
-The ```$extract``` definition by itself is also not very useful.
+The `$extract` definition by itself is also not very useful.
 It is also usually used as part of another Harvey action.
 
 When used with assignment, the following is an example if chaining
@@ -138,7 +140,7 @@ two actions, assignment and extract.
 	"token := $body.token"
 
 This compared to the current syntax is much smaller and easier to
-iterpret.
+interpret.
 
 	{
 		"$set": {
