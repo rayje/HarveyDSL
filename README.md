@@ -21,7 +21,7 @@ test cases in the Harvey framework. There is also the
 simplicity for the programmer. Since Harvey is written in 
 JavaScript, converting the JSON to javascript is as simple as
 ```javascript
-	var object = JSON.parse("{}");
+var object = JSON.parse("{}");
 ```
 
 The drawbacks, however, are when combined with features such
@@ -57,11 +57,13 @@ The current actions that are used in Harvey are:
 The current assignment definition contains the following JSON
 object definition:
 
-	{
-		"$set": {
-			<key>: <value>	
-		}
+```JSON
+{
+	"$set": {
+		"<key>": "<value>""	
 	}
+}
+```
 
 where `key` is the name of the variable whose value will 
 be set by the assignment, and `value` is the result of 
