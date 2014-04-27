@@ -26,12 +26,6 @@ assign = variable:charsAndDigits whitespace ":=" whitespace val: (random / extra
 	}; 
 }
 
-charsAndDigits = $[a-z0-9]i+
-
-chars = $[a-z]i+
-
-digits = $[0-9]+
-
 extract = "$" variable:charsAndDigits "." val:charsAndDigits {
 	return {
 		type: EXTRACT,
@@ -67,6 +61,32 @@ replace
 		}; 
 	}
 
+random = randomString / randomNumber
+
+randomString = "random string" whitespace length:digits ":" chars:chars {
+	return {
+		type: RANDOM_STRING,
+		length: makeInteger(length),
+		chars: chars
+	}
+}
+
+randomNumber = "random number" whitespace min:digits ":" max:digits {
+	return {
+		type: RANDOM_NUMBER,
+		min: makeInteger(min),
+		max: makeInteger(max)
+	}
+}
+
+
+
+charsAndDigits = $[a-z0-9]i+
+
+chars = $[a-z]i+
+
+digits = $[0-9]+
+
 replacement = $[^/]i* 
 
 flags = $[gimy]*  
@@ -96,21 +116,3 @@ regexNonTerminator = !lineTerminator sourceChar
 regexClass = "[" regexClassChar* "]"
 
 regexClassChar = ![\]\\] regexNonTerminator / regexBackslashSeq
-
-random = randomString / randomNumber
-
-randomString = "random string" whitespace length:digits ":" chars:chars {
-	return {
-		type: RANDOM_STRING,
-		length: makeInteger(length),
-		chars: chars
-	}
-}
-
-randomNumber = "random number" whitespace min:digits ":" max:digits {
-	return {
-		type: RANDOM_NUMBER,
-		min: makeInteger(min),
-		max: makeInteger(max)
-	}
-}
