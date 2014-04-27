@@ -3,7 +3,15 @@
 		ASSIGN         = 1,
 		EXTRACT        = 2,
 		RANDOM_STRING  = 3,
-		RANDOM_NUMBER  = 4
+		RANDOM_NUMBER  = 4;
+
+	function makeInteger(o) {
+		if (typeof o === "string") {
+			return parseInt(o);
+		}
+
+		return parseInt(o.join(""), 10);
+	}
 }
 
 start = expr
@@ -94,7 +102,7 @@ random = randomString / randomNumber
 randomString = "random string" whitespace length:digits ":" chars:chars {
 	return {
 		type: RANDOM_STRING,
-		length: length,
+		length: makeInteger(length),
 		chars: chars
 	}
 }
@@ -102,7 +110,7 @@ randomString = "random string" whitespace length:digits ":" chars:chars {
 randomNumber = "random number" whitespace min:digits ":" max:digits {
 	return {
 		type: RANDOM_NUMBER,
-		min: min,
-		max: max
+		min: makeInteger(min),
+		max: makeInteger(max)
 	}
 }

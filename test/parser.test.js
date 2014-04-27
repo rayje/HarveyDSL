@@ -2,6 +2,17 @@ var assert = require('assert'),
     _ = require('underscore'),
     parser = require('../lib/parser.js');
 
+var REPLACE = 0,
+	ASSIGN  = 1,
+	EXTRACT = 2,
+	RANDOM_STRING = 3,
+	RANDOM_NUMBER = 4;
+
+function expectedMessage(expected, result) {
+	return "Expected \n" + JSON.stringify(expected, null, 2) + 
+	"\n got \n" + JSON.stringify(result, null, 2);
+}
+
 describe('parser', function() {
 
     describe('constructor()', function() {
@@ -16,16 +27,20 @@ describe('parser', function() {
         });
     });
 
-    describe('parse random', function() {
+    describe('parse() random', function() {
 
         it('should parse random string', function(done) {
 
             var action = 'random string 10:abcde';
-            var result = parser.parse(action);
+            var expected = {
+            	type: RANDOM_STRING,
+            	length: 10,
+            	chars: 'abcde'
+            };
 
-            assert(result.type === 3);
-            assert(parseInt(result.length) === 10);
-            assert(result.chars === 'abcde');
+            var result = parser.parse(action);
+            assert(_.isEqual(expected, result), 
+            	expectedMessage(expected, result));
 
             done();
         });
@@ -33,11 +48,16 @@ describe('parser', function() {
         it('should parse random number', function(done) {
 
             var action = 'random number 1:10';
+            var expected = {
+            	type: RANDOM_NUMBER,
+            	min: 1,
+            	max: 10
+            };
+
             var result = parser.parse(action);
 
-            assert(result.type === 4);
-            assert(parseInt(result.min) === 1);
-            assert(parseInt(result.max) === 10);
+            assert(_.isEqual(expected, result), 
+            	expectedMessage(expected, result));
 
             done();
         });
@@ -45,14 +65,19 @@ describe('parser', function() {
         it('should parse assign random number', function(done) {
 
             var action = 'test := random number 1:10';
-            var result = parser.parse(action);
+            var expected = {
+            	type: ASSIGN,
+            	variable: "test",
+            	val: {
+            		type: RANDOM_NUMBER,
+            		min: 1,
+            		max: 10
+            	}
+            };
 
-            assert(result.type === 1);
-            assert(result.variable === 'test');
-            assert(typeof result.val === 'object');
-            assert(parseInt(result.val.type) === 4, "expected 4 got: " + result.val.type);
-            assert(parseInt(result.val.min) === 1, "expected 1 got: " + result.val.min);
-            assert(parseInt(result.val.max) === 10, "expected 10 got: " + result.val.max);
+            var result = parser.parse(action);
+            assert(_.isEqual(expected, result), 
+            	expectedMessage(expected, result));
 
             done();
         });
