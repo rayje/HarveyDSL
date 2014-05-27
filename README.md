@@ -6,7 +6,7 @@ A Domain Specific Language for Harvey Actions
 ## Description
 
 The HarveyDSL is a project to experiment with a small grammar 
-that could potentially to simplify action definitions when creating 
+that could potentially simplify action definitions when creating 
 Harvey test cases.
 
 ## Overview
