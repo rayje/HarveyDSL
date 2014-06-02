@@ -1,7 +1,7 @@
 HarveyDSL
 =========
 
-A Domain Specific Language for Harvey Actions
+A Domain Specific Language for [Harvey](https://github.com/tschwecke/harvey) Actions
 
 ## Description
 
